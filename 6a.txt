@@ -1,0 +1,22 @@
+/*Tabela - zamówienia*/
+id_produktu -> nazwa_produktu, cena_produktu, VAT
+id_klienta -> nazwa_klienta
+data_zamowienia, id_klienta-> ilosc, id_produktu, suma_brutto, suma_netto, nazwa_produktu, cena_produktu, VAT, nazwa_klienta
+
+ilosc, cena_produktu -> suma_netto
+ilosc, cena_produktu, VAT -> suma_brutto
+nazwa_klienta -> id_klienta
+nazwa_produktu -> id_produktu, cena_produktu, VAT
+data_zamowienia, nazwa_klienta-> ilosc, id_produktu, suma_brutto, suma_netto, nazwa_produktu, cena_produktu, VAT, id_klienta
+suma_brutto, VAT -> suma_netto
+suma_netto, VAT -> suma_brutto
+
+Klucze kandydujące: id_klienta, data_zamówienia
+
+/*Tabela - pomieszczenia*/
+
+id_pomieszczenia -> numer_pomieszczenia, id_budynku, powierzchnia, liczba_okien, liczba_drzwi, ulica, miasto, kod_pocztowy
+id_budynku -> ulica, miasto, kod_pocztowy
+miasto -> kod_pocztowy
+
+Klucze kandydujące: id_pomieszczenia
