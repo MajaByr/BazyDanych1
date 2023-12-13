@@ -1,5 +1,4 @@
 --------1---------
-
 CREATE OR ALTER FUNCTION nFib(@n INT)
 RETURNS INT AS 
 BEGIN 
@@ -23,9 +22,6 @@ END;
 EXEC dbo.print_fib 10;
 
 --------2---------
---Napisz trigger DML, który po wprowadzeniu danych do tabeli Persons zmodyfikuje nazwisko
---tak, aby by³o napisane du¿ymi literami.
-
 CREATE OR ALTER TRIGGER uppercaseBefInsert
 ON Person.Person
 AFTER INSERT 
@@ -34,8 +30,6 @@ UPDATE Person.Person SET LastName = UPPER(LastName)
 WHERE LastName = (SELECT LastName FROM INSERTED);
 
 --------3---------
---Przygotuj trigger ‘taxRateMonitoring’, który wyœwietli komunikat o b³êdzie, je¿eli nast¹pi
---zmiana wartoœci w polu ‘TaxRate’ o wiêcej ni¿ 30%.
 CREATE OR ALTER TRIGGER taxRateMonitoring
 ON Sales.SalesTaxRate
 FOR UPDATE
