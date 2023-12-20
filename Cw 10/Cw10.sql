@@ -1,8 +1,8 @@
 --Zadanie 1
 
---Napisz zapytanie, które wykorzystuje transakcjê (zaczyna j¹), a nastêpnie aktualizuje cenê
---produktu o ProductID równym 680 w tabeli Production.Product o 10% i nastêpnie
---zatwierdza transakcjê
+--Napisz zapytanie, ktÃ³re wykorzystuje transakcjÄ™ (zaczyna jÄ…), a nastÄ™pnie aktualizuje cenÄ™
+--produktu o ProductID rÃ³wnym 680 w tabeli Production.Product o 10% i nastÄ™pnie
+--zatwierdza transakcjÄ™
 
 /*BEGIN TRANSACTION;
 UPDATE Production.Product 
@@ -15,8 +15,8 @@ WHERE ProductID = 680;
 COMMIT;*/
 
 --Zadanie 2
---Napisz zapytanie, które zaczyna transakcjê, dodaje nowy produkt do tabeli
---Production.Product, a nastêpnie zatwierdza transakcjê
+--Napisz zapytanie, ktÃ³re zaczyna transakcjÄ™, dodaje nowy produkt do tabeli
+--Production.Product, a nastÄ™pnie zatwierdza transakcjÄ™
 
 /*BEGIN TRANSACTION;
 INSERT INTO Production.Product 
@@ -30,9 +30,9 @@ WHERE Name = 'Xyz';
 COMMIT;*/
 
 --Zadanie 3
---Napisz zapytanie, które zaczyna transakcjê, usuwa produkt (o ProductID równym temu
---dodanemu w poprzednim zadaniu) z tabeli Production.Product, ale nastêpnie wycofuje
---transakcjê
+--Napisz zapytanie, ktÃ³re zaczyna transakcjÄ™, usuwa produkt (o ProductID rÃ³wnym temu
+--dodanemu w poprzednim zadaniu) z tabeli Production.Product, ale nastÄ™pnie wycofuje
+--transakcjÄ™
 
 BEGIN TRANSACTION;
 DELETE FROM Production.Product
@@ -40,10 +40,10 @@ WHERE ProductID = 1013;
 ROLLBACK;
 
 --Zadanie 4
---Napisz zapytanie, które zaczyna transakcjê i aktualizuje StandardCost wszystkich 
---produktóww tabeli Production.Product o 10%, je¿eli suma wszystkich StandardCost 
---po aktualizacji nie przekracza 50000. W przeciwnym razie zapytanie powinno wycofaæ 
---transakcjê
+--Napisz zapytanie, ktÃ³re zaczyna transakcjÄ™ i aktualizuje StandardCost wszystkich 
+--produktÃ³ww tabeli Production.Product o 10%, jeÅ¼eli suma wszystkich StandardCost 
+--po aktualizacji nie przekracza 50000. W przeciwnym razie zapytanie powinno wycofaÄ‡
+--transakcjÄ™
 /*
 BEGIN TRANSACTION;
 UPDATE Production.Product
@@ -52,9 +52,9 @@ IF (SELECT SUM(StandardCost) FROM Production.Product)<50000 COMMIT;
 ELSE ROLLBACK; */
 
 --Zadanie 5
---Napisz zapytanie SQL, które zaczyna transakcjê i próbuje dodaæ nowy produkt do tabeli
---Production.Product. Jeœli ProductNumber ju¿ istnieje w tabeli, zapytanie powinno wycofaæ
---transakcjê. Nale¿y najpierw usun¹æ indeksy o nazwach AK_Product_ProductNumber oraz
+--Napisz zapytanie SQL, ktÃ³re zaczyna transakcjÄ™ i prÃ³buje dodaÄ‡ nowy produkt do tabeli
+--Production.Product. JeÅ›li ProductNumber juÅ¼ istnieje w tabeli, zapytanie powinno wycofaÄ‡
+--transakcjÄ™. NaleÅ¼y najpierw usunÄ…Ä‡ indeksy o nazwach AK_Product_ProductNumber oraz
 --AK_Product_Name.
 
 /*
@@ -71,9 +71,9 @@ ELSE ROLLBACK;
 */
 
 --Zadanie 6
---Napisz zapytanie SQL, które zaczyna transakcjê i aktualizuje wartoœæ OrderQty dla ka¿dego
---zamówienia w tabeli Sales.SalesOrderDetail. Je¿eli którykolwiek z zamówieñ ma OrderQty
---równ¹ 0, zapytanie powinno wycofaæ transakcjê
+--Napisz zapytanie SQL, ktÃ³re zaczyna transakcjÄ™ i aktualizuje wartoÅ›Ä‡ OrderQty dla kaÅ¼dego
+--zamÃ³wienia w tabeli Sales.SalesOrderDetail. JeÅ¼eli ktÃ³rykolwiek z zamÃ³wieÅ„ ma OrderQty
+--rÃ³wnÄ… 0, zapytanie powinno wycofaÄ‡ transakcjÄ™
 
 BEGIN TRANSACTION;
 UPDATE Sales.SalesOrderDetail
@@ -83,10 +83,10 @@ IF (SELECT COUNT(ProductID) FROM Sales.SalesOrderDetail
 ELSE COMMIT;
 
 --Zadanie 7
---Napisz zapytanie SQL, które zaczyna transakcjê i modyfikuje (jako StandardCost wpisuje
---wartoœæ œredni¹ - szczegó³y dalej) wszystkie produkty, których StandardCost jest wy¿szy ni¿
---œredni koszt wszystkich produktów w tabeli Production.Product. Je¿eli liczba produktów do
---zmodyfikowania przekracza 200, zapytanie powinno wycofaæ transakcjê.
+--Napisz zapytanie SQL, ktÃ³re zaczyna transakcjÄ™ i modyfikuje (jako StandardCost wpisuje
+--wartoÅ›Ä‡ Å›redniÄ… - szczegÃ³Å‚y dalej) wszystkie produkty, ktÃ³rych StandardCost jest wyÅ¼szy niÅ¼
+--Å›redni koszt wszystkich produktÃ³w w tabeli Production.Product. JeÅ¼eli liczba produktÃ³w do
+--zmodyfikowania przekracza 200, zapytanie powinno wycofaÄ‡ transakcjÄ™.
 
 BEGIN TRANSACTION;
 UPDATE Production.Product
