@@ -1,0 +1,73 @@
+/*Zadanie 1*/
+
+SELECT SalesOrderID, SalesOrderDetailID
+FROM Sales.SalesOrderDetail
+WHERE SalesOrderID = 43683
+AND SalesOrderDetailID = 240;
+
+Z zastosowaniem PK:
+Compile time: 31
+Clustered Index Seek
+CPU time = 0 ms,  elapsed time = 1 ms.
+koszty operacji I/O: 0,003125
+koszty CPU: 0,0001581
+ilość wierszy, które musiały być wczytane: 1
+
+Bez PK:
+Table Scan
+Compile time: 4
+CPU time = 16 ms,  elapsed time = 11 ms.
+koszty operacji I/O: 0,918681
+koszty CPU: 0,133606
+ilość wierszy, które musiały być wczytane: 121317
+
+Podczas wyszukiwania rekordu o zadanej wartości dla SalesOrderID, które jest kluczem głównym tabeli serwer wykonuje operację Index Seek - od razu zwraca wiersz pod zadanym indeksem. Jeżeli kolumna SalesOrderID nie jest kluczem głównym, serwer wykonuje Table Scan - wczytuje po kolei wszystkie rekordy i sprawdza czy ich wartość dla SalesOrderID spełnia warunek zadany w zapytaniu.
+Dalsza część zapytania (... AND SalesOrderDetailID = 240) wykonywana jest w ten sam sposób w obu przypadkach - sprawdzana jest wartość 
+SalesOrderDetailID elementu odnalezionego w poprzedniej części zapytania.
+Na podstawie statystyk zwróconych w Execution Plan można stwierdzić, że zapytanie jest realizowane szybciej w przypadku przeszukiwania po kluczu głównym tabeli oraz koszty takiej operacji są znacznie mniejsze.
+
+
+---Zamiana AND na OR---
+Z zastosowaniem PK:
+NonClustered Index Scan
+Compile time: 12
+CPU time = 15 ms,  elapsed time = 28 ms
+koszty operacji I/O: 0,205347
+koszty CPU: 0,133606
+ilość wierszy, które musiały być wczytane: 121317
+
+Bez PK:
+Table Scan
+Compile time: 29
+CPU time = 31 ms,  elapsed time = 38 ms.
+koszty operacji I/O: 0,918681
+koszty CPU: 0,133606
+ilość wierszy, które musiały być wczytane: 121317
+
+Podczas wykonania tego zapytania na tabeli w której SalesOrderID nie jest kluczem głównym odczytywane i sprawdzane są kolejno wszystkie rekordy z tabeli (Table Scan), natomiast w przypadku istnienia PK sprawdzane są wartości kolejnych rekordów według PK. 
+Ze statystyk zwróconych w Execution Plan wynika, że to zapytanie przeprowadzone na tabeli z określonym kluczem głównym wykona się nieznacznie szybciej niż na tabeli bez określonego PK.
+Ilość wczytanych wierszy oraz koszty CPU są identyczne.
+
+/*Zadanie 2*/
+
+SELECT SalesOrderID, rowguid
+FROM Sales.SalesOrderDetail
+WHERE rowguid = '6078731B-6AB2-40B4-9D19-0001E28D12E3'
+OR UnitPrice>2200;
+
+create index rowguid_ID on Sales.SalesOrderDetail (rowguid);
+
+Bez indeksu:
+Clustered Index Scan
+CPU time = 89 ms,  elapsed time = 93 ms
+koszty operacji I/O: 0,918681
+koszty CPU: 0,133606
+ilość wierszy, które musiały być wczytane: 121317
+
+Z indeksem:
+Clustered Index Scan
+CPU time = 35 ms,  elapsed time = 35 ms
+koszty operacji I/O: 0,918681
+koszty CPU: 0,133606
+ilość wierszy, które musiały być wczytane: 121317
+
